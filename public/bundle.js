@@ -46,26 +46,11 @@
 
 	'use strict';
 
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
+	var TodoApp = __webpack_require__(159);
 
-	var objOne = {
-	    name: "AQ",
-	    location: "karachi"
-	};
-	var objtwo = _extends({
-	    age: 23
-	}, objOne);
-
-	console.log(objtwo);
-
-	ReactDOM.render(React.createElement(
-	    'h1',
-	    null,
-	    'Boilerplate App! '
-	), document.getElementById("app"));
+	ReactDOM.render(React.createElement(TodoApp, null), document.getElementById("app"));
 
 /***/ },
 /* 1 */
@@ -19760,6 +19745,32 @@
 
 	module.exports = __webpack_require__(3);
 
+
+/***/ },
+/* 159 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+
+	var TodoApp = React.createClass({
+	    displayName: 'TodoApp',
+
+	    render: function render() {
+	        return React.createElement(
+	            'div',
+	            null,
+	            React.createElement(
+	                'h1',
+	                null,
+	                'TodoApp'
+	            )
+	        );
+	    }
+	});
+
+	module.exports = TodoApp;
 
 /***/ }
 /******/ ]);

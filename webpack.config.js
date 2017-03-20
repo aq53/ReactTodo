@@ -6,8 +6,14 @@ module.exports = {
     },
     resolve: {
         root: __dirname,
+        modulesDirectories: [
+            'node_modules',
+            './app/components'
+        ],
         alias: {
-            },
+            // TodoApp: 'app/components/TodoApp.jsx'
+        },
+        
         extensions: ['','.js','.jsx']
     },
     
