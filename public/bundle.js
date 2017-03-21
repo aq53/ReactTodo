@@ -19754,6 +19754,8 @@
 
 	var React = __webpack_require__(1);
 	var TodoList = __webpack_require__(160);
+	var AddTodoForm = __webpack_require__(162);
+
 	var TodoApp = React.createClass({
 	    displayName: 'TodoApp',
 
@@ -19780,7 +19782,8 @@
 	        return React.createElement(
 	            'div',
 	            null,
-	            React.createElement(TodoList, { todos: todos })
+	            React.createElement(TodoList, { todos: todos }),
+	            React.createElement(AddTodoForm, null)
 	        );
 	    }
 	});
@@ -19845,6 +19848,60 @@
 	});
 
 	module.exports = Todo;
+
+/***/ },
+/* 162 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var React = __webpack_require__(1);
+
+	var AddTodoForm = React.createClass({
+	    displayName: "AddTodoForm",
+
+	    getInitialState: function getInitialState() {
+	        return { addTodo: "Some text" };
+	    },
+	    onButtonClick: function onButtonClick(e) {
+	        e.preventDefault();
+	        var addTodo = this.refs.addTodo;
+	        var addTodoValue = addTodo.value;
+	        alert(addTodoValue);
+	        if (addTodoValue.length > 0) {
+	            addTodo.value = "";
+	            this.setState({
+	                addTodo: addTodoValue
+	            });
+	        }
+	    },
+	    render: function render() {
+	        var addTodo = this.state.addTodo;
+
+	        return React.createElement(
+	            "div",
+	            null,
+	            React.createElement(
+	                "p",
+	                null,
+	                "Todo ",
+	                addTodo
+	            ),
+	            React.createElement(
+	                "form",
+	                { onSubmit: this.onButtonClick },
+	                React.createElement("input", { type: "text", ref: "addTodo" }),
+	                React.createElement(
+	                    "button",
+	                    null,
+	                    "Add Todo"
+	                )
+	            )
+	        );
+	    }
+	});
+
+	module.exports = AddTodoForm;
 
 /***/ }
 /******/ ]);
