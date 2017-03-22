@@ -19755,12 +19755,15 @@
 	var React = __webpack_require__(1);
 	var TodoList = __webpack_require__(160);
 	var AddTodoForm = __webpack_require__(162);
+	var TodoSearch = __webpack_require__(163);
 
 	var TodoApp = React.createClass({
 	    displayName: 'TodoApp',
 
 	    getInitialState: function getInitialState() {
 	        return {
+	            showCompleted: false,
+	            searchText: '',
 	            todos: [{
 	                id: 1,
 	                text: 'Walk the dog'
@@ -19778,7 +19781,12 @@
 	    },
 	    handelAddTodo: function handelAddTodo(text) {
 	        alert("New Todo: " + text);
-	        todos.push({ text: text });
+	    },
+	    handleSearch: function handleSearch(showCompleted, searchText) {
+	        this.setState({
+	            showCompleted: showCompleted,
+	            searchText: searchText.toLowerCase()
+	        });
 	    },
 	    render: function render() {
 	        var todos = this.state.todos;
@@ -19786,6 +19794,7 @@
 	        return React.createElement(
 	            'div',
 	            null,
+	            React.createElement(TodoSearch, { onSearch: this.handleSearch }),
 	            React.createElement(TodoList, { todos: todos }),
 	            React.createElement(AddTodoForm, { onAddTodo: this.handelAddTodo })
 	        );
@@ -19894,6 +19903,48 @@
 	});
 
 	module.exports = AddTodoForm;
+
+/***/ },
+/* 163 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var React = __webpack_require__(1);
+
+	var TodoSearch = React.createClass({
+	    displayName: "TodoSearch",
+
+	    handleSearch: function handleSearch() {
+	        var searchText = this.refs.searchText.value;
+	        var showCompleted = this.refs.showCompleted.checked;
+
+	        this.props.onSearch(showCompleted, searchText);
+	    },
+	    render: function render() {
+	        return React.createElement(
+	            "div",
+	            null,
+	            React.createElement(
+	                "div",
+	                null,
+	                React.createElement("input", { type: "search", ref: "searchText", placeholder: "Search Todos", onChange: this.handleSearch })
+	            ),
+	            React.createElement(
+	                "div",
+	                null,
+	                React.createElement(
+	                    "label",
+	                    null,
+	                    React.createElement("input", { type: "checkbox", ref: "showCompleted", onChange: this.handleSearch }),
+	                    "Show completed todos"
+	                )
+	            )
+	        );
+	    }
+	});
+
+	module.exports = TodoSearch;
 
 /***/ }
 /******/ ]);
