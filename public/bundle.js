@@ -19752,6 +19752,8 @@
 
 	'use strict';
 
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 	var React = __webpack_require__(1);
 	var TodoList = __webpack_require__(160);
 	var AddTodoForm = __webpack_require__(162);
@@ -19766,30 +19768,31 @@
 	            showCompleted: false,
 	            searchText: '',
 	            todos: [{
-	                id: '',
-	                text: ''
-	            }
-	            //   ,{
-	            //       id: uuid(),
-	            //       text: 'Clean the yard'
-	            //   },{
-	            //       id: uuid(),
-	            //       text: 'Learn react'
-	            //   },{
-	            //       id: uuid(),
-	            //       text: 'Ponka'
-	            //   }
-	            ]
+	                id: uuid(),
+	                text: 'Walk the dog',
+	                completed: false
+	            }, {
+	                id: uuid(),
+	                text: 'Clean the yard',
+	                completed: true
+	            }, {
+	                id: uuid(),
+	                text: 'Learn react',
+	                completed: true
+	            }, {
+	                id: uuid(),
+	                text: 'Ponka',
+	                completed: false
+	            }]
 	        };
 	    },
 	    handelAddTodo: function handelAddTodo(text) {
 	        this.setState({
-	            todos: [
-	            // ...this.state.todos,
-	            {
+	            todos: [].concat(_toConsumableArray(this.state.todos), [{
 	                id: uuid(),
-	                text: text
-	            }]
+	                text: text,
+	                completed: false
+	            }])
 	        });
 	    },
 	    handleSearch: function handleSearch(showCompleted, searchText) {
@@ -19798,6 +19801,15 @@
 	            searchText: searchText.toLowerCase()
 	        });
 	    },
+	    handleToggle: function handleToggle(id) {
+	        var updatedTodos = this.state.todos.map(function (todo) {
+	            if (todo.id === id) {
+	                todo.completed = !todo.completed;
+	            }
+	            return todo;
+	        });
+	        this.setState({ todos: updatedTodos });
+	    },
 	    render: function render() {
 	        var todos = this.state.todos;
 
@@ -19805,7 +19817,7 @@
 	            'div',
 	            null,
 	            React.createElement(TodoSearch, { onSearch: this.handleSearch }),
-	            React.createElement(TodoList, { todos: todos }),
+	            React.createElement(TodoList, { todos: todos, onToggle: this.handleToggle }),
 	            React.createElement(AddTodoForm, { onAddTodo: this.handelAddTodo })
 	        );
 	    }
@@ -19827,10 +19839,12 @@
 	    displayName: 'TodoList',
 
 	    render: function render() {
+	        var _this = this;
+
 	        var todos = this.props.todos;
 	        var renderTodos = function renderTodos() {
 	            return todos.map(function (todo) {
-	                return React.createElement(Todo, _extends({ key: todo.id }, todo));
+	                return React.createElement(Todo, _extends({ key: todo.id }, todo, { onToggle: _this.props.onToggle }));
 	            });
 	        };
 
@@ -19848,23 +19862,27 @@
 /* 161 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	var React = __webpack_require__(1);
 
 	var Todo = React.createClass({
-	    displayName: 'Todo',
+	    displayName: "Todo",
 
 	    render: function render() {
+	        var _this = this;
+
 	        var _props = this.props,
 	            text = _props.text,
-	            id = _props.id;
+	            id = _props.id,
+	            completed = _props.completed;
 
 	        return React.createElement(
-	            'div',
-	            null,
-	            id,
-	            '. ',
+	            "div",
+	            { onClick: function onClick() {
+	                    _this.props.onToggle(id);
+	                } },
+	            React.createElement("input", { type: "checkbox", checked: completed }),
 	            text
 	        );
 	    }
