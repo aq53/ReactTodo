@@ -19776,6 +19776,10 @@
 	            }]
 	        };
 	    },
+	    handelAddTodo: function handelAddTodo(text) {
+	        alert("New Todo: " + text);
+	        todos.push({ text: text });
+	    },
 	    render: function render() {
 	        var todos = this.state.todos;
 
@@ -19783,7 +19787,7 @@
 	            'div',
 	            null,
 	            React.createElement(TodoList, { todos: todos }),
-	            React.createElement(AddTodoForm, null)
+	            React.createElement(AddTodoForm, { onAddTodo: this.handelAddTodo })
 	        );
 	    }
 	});
@@ -19860,37 +19864,25 @@
 	var AddTodoForm = React.createClass({
 	    displayName: "AddTodoForm",
 
-	    getInitialState: function getInitialState() {
-	        return { addTodo: "Some text" };
-	    },
 	    onButtonClick: function onButtonClick(e) {
 	        e.preventDefault();
-	        var addTodo = this.refs.addTodo;
-	        var addTodoValue = addTodo.value;
-	        alert(addTodoValue);
-	        if (addTodoValue.length > 0) {
-	            addTodo.value = "";
-	            this.setState({
-	                addTodo: addTodoValue
-	            });
+	        var TodoText = this.refs.TodoText.value;
+
+	        if (TodoText.length > 0) {
+	            this.refs.TodoText.value = "";
+	            this.props.onAddTodo(TodoText);
+	        } else {
+	            this.refs.TodoText.focus();
 	        }
 	    },
 	    render: function render() {
-	        var addTodo = this.state.addTodo;
-
 	        return React.createElement(
 	            "div",
 	            null,
 	            React.createElement(
-	                "p",
-	                null,
-	                "Todo ",
-	                addTodo
-	            ),
-	            React.createElement(
 	                "form",
 	                { onSubmit: this.onButtonClick },
-	                React.createElement("input", { type: "text", ref: "addTodo" }),
+	                React.createElement("input", { type: "text", ref: "TodoText", placeholder: "What do you need to do?" }),
 	                React.createElement(
 	                    "button",
 	                    null,
