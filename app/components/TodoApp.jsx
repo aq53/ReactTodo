@@ -32,7 +32,8 @@ var TodoApp=React.createClass({
     handleSearch: function(showCompleted, searchText) {
         this.setState({
             showCompleted: showCompleted,
-            searchText: searchText.toLowerCase()
+            searchText: searchText.toLowerCase(),
+            // todos: TodoApi.filterTodos()
         })
     },
     handleToggle: function(id) {

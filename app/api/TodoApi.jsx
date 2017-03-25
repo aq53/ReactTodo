@@ -30,7 +30,13 @@ module.exports= {
         });
 
         //filter by searchText
-        filteredTodos.sort((a,b)=> {
+       filteredTodos = filteredTodos.filter((todo)=>{
+           var text = todo.text.toLowerCase();
+           return searchText.length === 0 || text.indexOf(searchText)>-1 ;
+       });
+
+        //sort by non-completed todo first
+         filteredTodos.sort((a,b)=> {
             if(!a.completed && b.completed){
                 return -1;
             }else if(a.completed && !b.completed){
@@ -40,7 +46,6 @@ module.exports= {
             }
         });
 
-        //sort by non-completed todo first
         return filteredTodos;
     }
 
