@@ -28386,9 +28386,19 @@
 	        filteredTodos = filteredTodos.filter(function (todo) {
 	            return !todo.completed || showCompleted;
 	        });
-	        //filter by searchText
 
-	        //sort w.r.t which todo is not done
+	        //filter by searchText
+	        filteredTodos.sort(function (a, b) {
+	            if (!a.completed && b.completed) {
+	                return -1;
+	            } else if (a.completed && !b.completed) {
+	                return 1;
+	            } else {
+	                return 0;
+	            }
+	        });
+
+	        //sort by non-completed todo first
 	        return filteredTodos;
 	    }
 
