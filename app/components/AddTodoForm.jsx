@@ -14,10 +14,11 @@ var React = require('react');
     },
     render: function() {
         return(
-        <div>
+        <div className="container__footer">
             <form onSubmit={this.onButtonClick}>
-                <input type="text" ref="TodoText" placeholder="What do you need to do?"/>
-                <button>Add Todo</button>
+                <input type="text" ref="TodoText" placeholder="What do you need to do?" className="form-control"/>
+                <br/>
+                <button className="btn btn-danger btn-block">Add Todo</button>
             </form>
         </div>
         );
