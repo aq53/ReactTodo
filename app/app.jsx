@@ -1,5 +1,7 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
+var {Provider} = require('react-redux');
+
 var TodoApp = require('TodoApp');
 
 var actions= require('actions');
@@ -13,4 +15,8 @@ store.dispatch(actions.addTodo('clean'));
 store.dispatch(actions.toggleShowCompleted());
 store.dispatch(actions.setSearchText('cl'));
 
- ReactDOM.render(<TodoApp/>, document.getElementById("app"));
+ ReactDOM.render(
+     <Provider store={store}>
+        <TodoApp/>
+     </Provider>, 
+     document.getElementById("app"));
