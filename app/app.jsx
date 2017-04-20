@@ -3,17 +3,19 @@ var ReactDOM = require('react-dom');
 var {Provider} = require('react-redux');
 
 var TodoApp = require('TodoApp');
+var TodoApi= require('TodoApi');
 
 var actions= require('actions');
 var store = require('configStore').configure();
 
 store.subscribe(() => {
-    console.log('New state',store.getState());
-});
+    var state = store.getState();
+    console.log('New state',state);
 
-store.dispatch(actions.addTodo('clean'));
-store.dispatch(actions.toggleShowCompleted());
-store.dispatch(actions.setSearchText('cl'));
+    TodoApi.setTodos(state.todos);
+});
+var initialTodos=TodoApi.getTodos();
+store.dispatch(actions.addTodos(initialTodos));
 
  ReactDOM.render(
      <Provider store={store}>
