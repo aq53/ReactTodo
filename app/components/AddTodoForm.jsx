@@ -9,7 +9,7 @@ var actions = require('actions');
         var {dispatch}=this.props;
         if(TodoText.length > 0){
         this.refs.TodoText.value="";
-        dispatch(actions.addTodo(TodoText));
+        dispatch(actions.startAddTodo(TodoText));
         }else{
             this.refs.TodoText.focus();
         }
