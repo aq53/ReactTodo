@@ -1,5 +1,5 @@
 var moment = require('moment');
-import firebase, { firebaseRef } from 'app/firebase/';
+import firebase, { firebaseRef, facebookProvider } from 'app/firebase/';
 
 export var setSearchText = (searchText) => {
     return {
@@ -81,6 +81,23 @@ export var startAddTodos= () => {
                 });
             });
             dispatch(addTodos(parsedTodos));
+        });
+    };
+};
+
+export var startLogin = ()=>{
+    return(dispatch,getState) =>{
+        firebase.auth().signInWithPopup(facebookProvider).then((result)=>{
+            console.log('Auth worked',result);
+        },(error)=>{
+            console.log('Unable to auth',error);
+        });
+    };
+};
+export var startLogout = ()=>{
+    return(dispatch,getState)=>{
+        firebase.auth().signOut().then(()=>{
+            console.log('Logged out!');
         });
     };
 };
