@@ -107,14 +107,13 @@
 	_firebase2.default.auth().onAuthStateChanged(function (user) {
 	    if (user) {
 	        store.dispatch(actions.login(user.uid));
+	        store.dispatch(actions.startAddTodos());
 	        hashHistory.push('/todos');
 	    } else {
 	        store.dispatch(actions.logout());
 	        hashHistory.push('/');
 	    }
 	});
-
-	store.dispatch(actions.startAddTodos());
 
 	ReactDOM.render(React.createElement(
 	    Provider,
@@ -28587,7 +28586,8 @@
 	            createdAt: moment().unix(),
 	            completedAt: null
 	        };
-	        var todoRef = _firebase.firebaseRef.child('todos').push(todo);
+	        var uid = getState().auth.uid;
+	        var todoRef = _firebase.firebaseRef.child('users/' + uid + '/todos').push(todo);
 	        return todoRef.then(function () {
 	            dispatch(addTodo(_extends({}, todo, {
 	                id: todoRef.key
@@ -28605,8 +28605,9 @@
 	};
 
 	var startTogTodo = exports.startTogTodo = function startTogTodo(id, completed) {
-	    return function (dispatch, getstate) {
-	        var todoRef = _firebase.firebaseRef.child('todos/' + id);
+	    return function (dispatch, getState) {
+	        var uid = getState().auth.uid;
+	        var todoRef = _firebase.firebaseRef.child('users/' + uid + '/todos/' + id);
 	        var updates = {
 	            completed: completed,
 	            completedAt: completed ? moment().unix() : null
@@ -28625,7 +28626,8 @@
 	};
 	var startAddTodos = exports.startAddTodos = function startAddTodos() {
 	    return function (dispatch, getState) {
-	        var todosRef = _firebase.firebaseRef.child('todos');
+	        var uid = getState().auth.uid;
+	        var todosRef = _firebase.firebaseRef.child('users/' + uid + '/todos');
 
 	        return todosRef.once('value').then(function (snapshot) {
 	            var todos = snapshot.val() || {};
@@ -44879,9 +44881,9 @@
 	        auth: _reducers.authReducer
 	    });
 
-	    var store = redux.createStore(reducer, redux.compose(redux.applyMiddleware(_reduxThunk2.default), window.devToolsExtension ? window.devToolsExtension() : function (f) {
-	        return f;
-	    }));
+	    var store = redux.createStore(reducer, redux.compose(redux.applyMiddleware(_reduxThunk2.default)
+	    // window.devToolsExtension ? window.devToolsExtension() : f => f
+	    ));
 
 	    return store;
 	};
@@ -44973,7 +44975,8 @@
 	                    return todo;
 	                }
 	            });
-
+	        case 'LOGOUT':
+	            return [];
 	        case 'ADD_TODOS':
 	            return [].concat(_toConsumableArray(state), _toConsumableArray(action.todos));
 

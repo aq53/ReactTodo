@@ -40,7 +40,8 @@ export var todosReducer = (state=[],action) => {
                     return todo;
                 }
             });
-
+            case 'LOGOUT':
+                return [];
             case 'ADD_TODOS':
             return [
                 ...state,
